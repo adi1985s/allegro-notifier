@@ -1,19 +1,17 @@
 <?php
 namespace App\Providers;
 
-use App\Repositories\AllegroCategoriesRepository;
-use App\Repositories\CategoriesRepository;
 use App\ValueObjects\ApiUrl;
 use App\ValueObjects\ApiCountryCode;
 use App\ValueObjects\ApiCredentials;
 use App\ValueObjects\ApiLocalVersion;
 use App\ValueObjects\AllegroWebApiUrl;
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\ApiConfigRepository;
+use App\Repositories\Contracts\ApiConfigRepository;
 use App\ValueObjects\AllegroWebApiLocalVersion;
 use App\ValueObjects\AllegroWebApiCredentials;
 use App\ValueObjects\AllegroWebApiCountryCode;
-use App\Repositories\AllegroWebApiConfigRepository;
+use App\Repositories\Allegro\AllegroWebApiConfigRepository;
 use Illuminate\Cache\Repository as CacheRepository;
 use Illuminate\Config\Repository as ConfigRepository;
 
@@ -35,9 +33,6 @@ class AllegroServiceProvider extends ServiceProvider
 
         // at last, bind config repository provider
         $this->bindApiConfigRepository($configRepository);
-
-        // it uses apiConfigRepository
-        $this->bindCategoryRepository();
     }
 
     /**
@@ -132,15 +127,6 @@ class AllegroServiceProvider extends ServiceProvider
             $localVersion = $this->app->make(ApiLocalVersion::class);
 
             return new AllegroWebApiConfigRepository($apiCredentials, $apiUrl, $countryCode, $localVersion);
-        });
-    }
-
-    private function bindCategoryRepository()
-    {
-        $this->app->singleton(CategoriesRepository::class, function () {
-            $apiConfigRepository = $this->app->make(ApiConfigRepository::class);
-
-            return new AllegroCategoriesRepository($apiConfigRepository);
         });
     }
 }

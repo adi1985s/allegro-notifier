@@ -1,7 +1,7 @@
 <?php
 namespace App\DataProviders;
 
-use App\Repositories\ApiConfigRepository;
+use App\Repositories\Contracts\ApiConfigRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class AllegroCategoryDataProvider
