@@ -1,17 +1,19 @@
 <?php
 namespace App\Providers;
 
-use App\Services\AllegroWebApiConfigRepository;
-use App\ValueObjects\AllegroWebApiLocalVersion;
+use App\Repositories\AllegroCategoriesRepository;
+use App\Repositories\CategoriesRepository;
 use App\ValueObjects\ApiUrl;
 use App\ValueObjects\ApiCountryCode;
 use App\ValueObjects\ApiCredentials;
-use App\Services\ApiConfigRepository;
 use App\ValueObjects\ApiLocalVersion;
 use App\ValueObjects\AllegroWebApiUrl;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\ApiConfigRepository;
+use App\ValueObjects\AllegroWebApiLocalVersion;
 use App\ValueObjects\AllegroWebApiCredentials;
 use App\ValueObjects\AllegroWebApiCountryCode;
+use App\Repositories\AllegroWebApiConfigRepository;
 use Illuminate\Cache\Repository as CacheRepository;
 use Illuminate\Config\Repository as ConfigRepository;
 
@@ -19,6 +21,7 @@ class AllegroServiceProvider extends ServiceProvider
 {
     /**
      * @param ConfigRepository $configRepository
+     * @param CacheRepository $cacheRepository
      */
     public function boot(ConfigRepository $configRepository, CacheRepository $cacheRepository)
     {
@@ -32,6 +35,9 @@ class AllegroServiceProvider extends ServiceProvider
 
         // at last, bind config repository provider
         $this->bindApiConfigRepository($configRepository);
+
+        // it uses apiConfigRepository
+        $this->bindCategoryRepository();
     }
 
     /**
@@ -62,6 +68,7 @@ class AllegroServiceProvider extends ServiceProvider
 
     /**
      * @param ConfigRepository $configRepository
+     * @param CacheRepository $cacheRepository
      */
     protected function bindApiLocalVersion(ConfigRepository $configRepository, CacheRepository $cacheRepository)
     {
@@ -69,13 +76,20 @@ class AllegroServiceProvider extends ServiceProvider
 
             // cache query to which gets local version from API endpoint
             $localVersion = $cacheRepository->remember('localVersion', 30, function () use ($configRepository) {
-                $webApiUrl = $configRepository->get('allegro.webApiUrl');
-                $webApiKey = $configRepository->get('allegro.webApiKey');
+                /**
+                 * @var $apiUrl ApiUrl
+                 */
+                $apiUrl = $this->app->make(ApiUrl::class);
+                /**
+                 * @var $apiCredentials ApiCredentials
+                 */
+                $apiCredentials = $this->app->make(ApiCredentials::class);
 
-                $soapCli = new \SoapClient($webApiUrl);
-                $apiResponse = $soapCli->doQueryAllSysStatus(['countryId' => 1, 'webapiKey' => $webApiKey]);
+                $soapCli = new \SoapClient($apiUrl->get());
+                $apiResponse = $soapCli->doQueryAllSysStatus(['countryId' => 1, 'webapiKey' => $apiCredentials->getApiToken()]);
+                $apiResponse = json_decode(json_encode($apiResponse), true);
 
-                return $apiResponse->{'sysCountryStatus'}->{'item'}[0]->{'verKey'};
+                return $apiResponse['sysCountryStatus']['item'][0]['verKey'];
             });
 
             return new AllegroWebApiLocalVersion($localVersion);
@@ -100,12 +114,33 @@ class AllegroServiceProvider extends ServiceProvider
     public function bindApiConfigRepository(ConfigRepository $configRepository)
     {
         $this->app->singleton(ApiConfigRepository::class, function () use ($configRepository) {
-            $apiCredentials = $this->app->make(ApiCredentials::class);
+            /**
+             * @var $apiUrl ApiUrl
+             */
             $apiUrl = $this->app->make(ApiUrl::class);
+            /**
+             * @var $apiCredentials ApiCredentials
+             */
+            $apiCredentials = $this->app->make(ApiCredentials::class);
+            /**
+             * @var $countryCode ApiCountryCode
+             */
             $countryCode = $this->app->make(ApiCountryCode::class);
+            /**
+             * @var $localVersion ApiLocalVersion
+             */
             $localVersion = $this->app->make(ApiLocalVersion::class);
 
             return new AllegroWebApiConfigRepository($apiCredentials, $apiUrl, $countryCode, $localVersion);
+        });
+    }
+
+    private function bindCategoryRepository()
+    {
+        $this->app->singleton(CategoriesRepository::class, function () {
+            $apiConfigRepository = $this->app->make(ApiConfigRepository::class);
+
+            return new AllegroCategoriesRepository($apiConfigRepository);
         });
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace App\Services;
+namespace App\Repositories;
 
 use App\ValueObjects\ApiCountryCode;
 use App\ValueObjects\ApiCredentials;
