@@ -2,11 +2,12 @@
 namespace App\Console\Commands;
 
 use App\Entities\Category;
-use App\Repositories\CategoriesRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Console\Command;
-use App\Repositories\ApiConfigRepository;
+use App\Repositories\Contracts\CategoryRepository;
+use Illuminate\Cache\Repository as CacheRepository;
+use App\DataProviders\AllegroCategoryDataProvider;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class AllegroCategoriesRebuild extends Command
 {
@@ -21,9 +22,9 @@ class AllegroCategoriesRebuild extends Command
     protected $description = 'Rebuild categories';
 
     /**
-     * @var CategoriesRepository
+     * @var AllegroCategoryDataProvider
      */
-    protected $categoriesRepository;
+    protected $categoriesDataProvider;
 
     /**
      * @var EntityManager
@@ -31,14 +32,28 @@ class AllegroCategoriesRebuild extends Command
     protected $em;
 
     /**
-     * @param CategoriesRepository $categoriesRepository
+     * @var CacheRepository
+     */
+    protected $cacheRepository;
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    /**
+     * @param AllegroCategoryDataProvider $categoriesDataProvider
+     * @param CategoryRepository $categoryRepository
+     * @param CacheRepository $cacheRepository
      * @param EntityManager $em
      */
-    public function __construct(CategoriesRepository $categoriesRepository, EntityManager $em)
+    public function __construct(AllegroCategoryDataProvider $categoriesDataProvider, CategoryRepository $categoryRepository, CacheRepository $cacheRepository, EntityManager $em)
     {
         parent::__construct();
-        $this->categoriesRepository = $categoriesRepository;
+
         $this->em = $em;
+        $this->cacheRepository = $cacheRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->categoriesDataProvider = $categoriesDataProvider;
     }
 
     /**
@@ -51,8 +66,8 @@ class AllegroCategoriesRebuild extends Command
         /**
          * @var $items ArrayCollection
          */
-        $categories = \Cache::remember('categories-data', 30, function () {
-            return $this->categoriesRepository->getAll();
+        $categories = $this->cacheRepository->remember('categories-data', 30, function () {
+            return $this->categoriesDataProvider->getAll();
         });
 
         foreach ($categories as $allegroCategory) {
@@ -68,6 +83,9 @@ class AllegroCategoriesRebuild extends Command
         }
 
         $this->em->flush();
+
+        $ourCategories = $this->categoryRepository->findBy(['id' => 1]);
+        dd($ourCategories);
 
         // TODO: READY FOR QUERIES
     }

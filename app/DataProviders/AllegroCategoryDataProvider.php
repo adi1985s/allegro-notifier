@@ -1,9 +1,10 @@
 <?php
-namespace App\Repositories;
+namespace App\DataProviders;
 
+use App\Repositories\ApiConfigRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class AllegroCategoriesRepository extends CategoriesRepository
+class AllegroCategoryDataProvider
 {
     /**
      * @var ApiConfigRepository
