@@ -1,8 +1,10 @@
 <?php
 namespace App\ValueObjects;
 
-class AllegroWebApiCountryCode
+class AllegroWebApiCountryCode extends ApiCountryCode
 {
+    const INVALID_COUNTRY_CODE_MGS = "Invalid country code";
+
     /**
      * @var int
      */
@@ -13,6 +15,7 @@ class AllegroWebApiCountryCode
      */
     public function __construct(int $countryCode)
     {
+        $this->guard($countryCode);
         $this->countryCode = $countryCode;
     }
 
@@ -22,5 +25,12 @@ class AllegroWebApiCountryCode
     public function get(): int
     {
         return $this->countryCode;
+    }
+
+    private function guard($countryCode)
+    {
+        if (empty($countryCode)) {
+            throw new \InvalidArgumentException(self::INVALID_COUNTRY_CODE_MGS);
+        }
     }
 }

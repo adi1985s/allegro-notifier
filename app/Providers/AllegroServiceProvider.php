@@ -1,6 +1,8 @@
 <?php
 namespace App\Providers;
 
+use App\ValueObjects\AllegroWebApiCountryCode;
+use App\ValueObjects\ApiCountryCode;
 use App\ValueObjects\ApiCredentials;
 use Illuminate\Support\ServiceProvider;
 use App\ValueObjects\AllegroWebApiCredentials;
@@ -13,12 +15,18 @@ class AllegroServiceProvider extends ServiceProvider
      */
     public function boot(ConfigRepository $configRepository)
     {
-        $this->app->singleton(ApiCredentials::class, function() use ($configRepository) {
+        $this->app->singleton(ApiCredentials::class, function () use ($configRepository) {
             $username = $configRepository->get('allegro.username');
             $password = $configRepository->get('allegro.password');
             $webApiKey = $configRepository->get('allegro.webApiKey');
 
             return new AllegroWebApiCredentials($username, $password, $webApiKey);
+        });
+
+        $this->app->singleton(ApiCountryCode::class, function () use ($configRepository) {
+            $countryCode = $configRepository->get('allegro.countryCode');
+
+            return new AllegroWebApiCountryCode($countryCode);
         });
     }
 }

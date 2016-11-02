@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
+use App\ValueObjects\ApiCountryCode;
 use Illuminate\Console\Command;
 use App\ValueObjects\ApiCredentials;
 
@@ -22,12 +23,19 @@ class ParserUpdate extends Command
     private $apiCredentials;
 
     /**
-     * @param ApiCredentials $apiCredentials
+     * @var ApiCountryCode
      */
-    public function __construct(ApiCredentials $apiCredentials)
+    private $apiCountryCode;
+
+    /**
+     * @param ApiCredentials $apiCredentials
+     * @param ApiCountryCode $apiCountryCode
+     */
+    public function __construct(ApiCredentials $apiCredentials, ApiCountryCode $apiCountryCode)
     {
         parent::__construct();
         $this->apiCredentials = $apiCredentials;
+        $this->apiCountryCode = $apiCountryCode;
     }
 
     /**
@@ -37,6 +45,6 @@ class ParserUpdate extends Command
      */
     public function handle()
     {
-        dd($this->apiCredentials->getWebApiToken());
+        dd($this->apiCountryCode->get());
     }
 }
