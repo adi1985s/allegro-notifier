@@ -71,8 +71,11 @@ class AllegroServiceProvider extends ServiceProvider
             $localVersion = $cacheRepository->remember('localVersion', 30, function () use ($configRepository) {
                 $webApiUrl = $configRepository->get('allegro.webApiUrl');
                 $webApiKey = $configRepository->get('allegro.webApiKey');
-                $a = new \SoapClient($webApiUrl);
-                return $a->doQueryAllSysStatus(1, $webApiKey)[0]->{'ver-key'};
+
+                $soapCli = new \SoapClient($webApiUrl);
+                $apiResponse = $soapCli->doQueryAllSysStatus(['countryId' => 1, 'webapiKey' => $webApiKey]);
+
+                return $apiResponse->{'sysCountryStatus'}->{'item'}[0]->{'verKey'};
             });
 
             return new AllegroWebApiLocalVersion($localVersion);
