@@ -1,4 +1,5 @@
 # allegro-notifier
+## Documentation, screenshots and how-to comming soon.
 
 ## 1. git clone
 ## 2. copy .env.example -> .env and fill .env settings
