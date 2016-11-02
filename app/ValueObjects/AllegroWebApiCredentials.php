@@ -70,7 +70,7 @@ class AllegroWebApiCredentials extends ApiCredentials
     /**
      * @return string
      */
-    public function getWebApiToken(): string
+    public function getApiToken(): string
     {
         return $this->webApiToken;
     }

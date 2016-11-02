@@ -16,5 +16,5 @@ abstract class ApiCredentials
     /**
      * @return string
      */
-    abstract public function getWebApiToken(): string;
+    abstract public function getApiToken(): string;
 }

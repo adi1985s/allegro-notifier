@@ -1,8 +1,10 @@
 <?php
 namespace App\ValueObjects;
 
-class AllegroWebApiLocalVersion
+class AllegroWebApiLocalVersion extends ApiLocalVersion
 {
+    const INVALID_LOCAL_VERSION = "Invalid local version";
+
     /**
      * @var int
      */
@@ -13,6 +15,7 @@ class AllegroWebApiLocalVersion
      */
     public function __construct(int $localVersion)
     {
+        $this->guard($localVersion);
         $this->localVersion = $localVersion;
     }
 
@@ -22,5 +25,12 @@ class AllegroWebApiLocalVersion
     public function get(): int
     {
         return $this->localVersion;
+    }
+
+    protected function guard($localVersion)
+    {
+        if (empty($localVersion)) {
+            throw new \InvalidArgumentException(self::INVALID_LOCAL_VERSION);
+        }
     }
 }

@@ -1,9 +1,8 @@
 <?php
 namespace App\Console\Commands;
 
-use App\ValueObjects\ApiCountryCode;
 use Illuminate\Console\Command;
-use App\ValueObjects\ApiCredentials;
+use App\Services\ApiConfigRepository;
 
 class ParserUpdate extends Command
 {
@@ -18,24 +17,17 @@ class ParserUpdate extends Command
     protected $description = 'Command description';
 
     /**
-     * @var ApiCredentials
+     * @var ApiConfigRepository
      */
-    private $apiCredentials;
+    private $apiConfigRepository;
 
     /**
-     * @var ApiCountryCode
+     * @param ApiConfigRepository $apiConfigRepository
      */
-    private $apiCountryCode;
-
-    /**
-     * @param ApiCredentials $apiCredentials
-     * @param ApiCountryCode $apiCountryCode
-     */
-    public function __construct(ApiCredentials $apiCredentials, ApiCountryCode $apiCountryCode)
+    public function __construct(ApiConfigRepository $apiConfigRepository)
     {
         parent::__construct();
-        $this->apiCredentials = $apiCredentials;
-        $this->apiCountryCode = $apiCountryCode;
+        $this->apiConfigRepository = $apiConfigRepository;
     }
 
     /**
@@ -45,6 +37,9 @@ class ParserUpdate extends Command
      */
     public function handle()
     {
-        dd($this->apiCountryCode->get());
+//        $a = new \SoapClient($this->apiConfigRepository->getApiUrl());
+//        $v = $a->doQuerySysStatus(1, 1, $this->apiConfigRepository->getApiToken());
+
+        // TODO: READY FOR QUERIES
     }
 }
