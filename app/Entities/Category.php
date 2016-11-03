@@ -7,8 +7,7 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity
  * @ORM\Table(indexes={
  *     @ORM\Index(name="category_id_parent_id", columns={"id", "parent_id"}),
- *     @ORM\Index(name="category_position_idx", columns={"position"}),
- *     @ORM\Index(name="category_id_parent_id_a_id_a_p_id", columns={"id", "parent_id", "allegro_id", "allegro_parent_id"})
+ *     @ORM\Index(name="category_position_idx", columns={"position"})
  * })
  */
 class Category
