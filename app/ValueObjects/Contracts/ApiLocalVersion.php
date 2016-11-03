@@ -1,7 +1,7 @@
 <?php
-namespace App\ValueObjects;
+namespace App\ValueObjects\Contracts;
 
-abstract class ApiCountryCode
+abstract class ApiLocalVersion
 {
     /**
      * @return int

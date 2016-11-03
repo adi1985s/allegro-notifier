@@ -1,5 +1,7 @@
 <?php
-namespace App\ValueObjects;
+namespace App\ValueObjects\Allegro;
+
+use App\ValueObjects\Contracts\ApiCredentials;
 
 class AllegroWebApiCredentials extends ApiCredentials
 {

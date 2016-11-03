@@ -1,19 +1,19 @@
 <?php
 namespace App\Providers;
 
-use App\ValueObjects\ApiUrl;
-use App\ValueObjects\ApiCountryCode;
-use App\ValueObjects\ApiCredentials;
-use App\ValueObjects\ApiLocalVersion;
-use App\ValueObjects\AllegroWebApiUrl;
+use App\ValueObjects\Contracts\ApiUrl;
 use Illuminate\Support\ServiceProvider;
+use App\ValueObjects\Allegro\AllegroWebApiUrl;
+use App\ValueObjects\Contracts\ApiCountryCode;
+use App\ValueObjects\Contracts\ApiCredentials;
+use App\ValueObjects\Contracts\ApiLocalVersion;
 use App\Repositories\Contracts\ApiConfigRepository;
-use App\ValueObjects\AllegroWebApiLocalVersion;
-use App\ValueObjects\AllegroWebApiCredentials;
-use App\ValueObjects\AllegroWebApiCountryCode;
-use App\Repositories\Allegro\AllegroWebApiConfigRepository;
 use Illuminate\Cache\Repository as CacheRepository;
 use Illuminate\Config\Repository as ConfigRepository;
+use App\ValueObjects\Allegro\AllegroWebApiCredentials;
+use App\ValueObjects\Allegro\AllegroWebApiCountryCode;
+use App\ValueObjects\Allegro\AllegroWebApiLocalVersion;
+use App\Repositories\Allegro\AllegroWebApiConfigRepository;
 
 class AllegroServiceProvider extends ServiceProvider
 {

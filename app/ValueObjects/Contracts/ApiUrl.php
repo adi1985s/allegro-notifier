@@ -1,10 +1,10 @@
 <?php
-namespace App\ValueObjects;
+namespace App\ValueObjects\Contracts;
 
 abstract class ApiUrl
 {
     /**
-     * @return int
+     * @return string
      */
     abstract public function get(): string;
 }

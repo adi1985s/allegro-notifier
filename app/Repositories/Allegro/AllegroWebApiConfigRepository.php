@@ -1,11 +1,11 @@
 <?php
 namespace App\Repositories\Allegro;
 
+use App\ValueObjects\Contracts\ApiUrl;
+use App\ValueObjects\Contracts\ApiCountryCode;
+use App\ValueObjects\Contracts\ApiCredentials;
+use App\ValueObjects\Contracts\ApiLocalVersion;
 use App\Repositories\Contracts\ApiConfigRepository;
-use App\ValueObjects\ApiCountryCode;
-use App\ValueObjects\ApiCredentials;
-use App\ValueObjects\ApiLocalVersion;
-use App\ValueObjects\ApiUrl;
 
 class AllegroWebApiConfigRepository implements ApiConfigRepository
 {
