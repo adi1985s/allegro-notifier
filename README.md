@@ -7,7 +7,8 @@ $ git clone https://github.com/initx/allegro-notifier.git
 $ cd allegro-notifier && composer install
 $ cp .env.example .env
 ```
-Now edit Your .env configuration file. Please fill all "ALLEGRO_%" variables with proper values.
+Now edit Your .env configuration file. Please fill all variables with ALLEGRO_ prefix.
+Allegro-notifier uses api token to read-only purposes from Allegro WebAPI. 
 More informations about allegro webapi tokens: http://allegro.pl/webapi/?lang=en
 
 After that You are ready to download categories.
