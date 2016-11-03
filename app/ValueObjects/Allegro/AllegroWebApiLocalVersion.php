@@ -29,7 +29,7 @@ class AllegroWebApiLocalVersion extends ApiLocalVersion
 
     protected function guard($localVersion)
     {
-        if (empty($localVersion)) {
+        if ($localVersion <= 0) {
             throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'localVersion'));
         }
     }

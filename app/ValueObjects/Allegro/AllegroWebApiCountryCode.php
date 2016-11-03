@@ -29,7 +29,7 @@ class AllegroWebApiCountryCode extends ApiCountryCode
 
     private function guard($countryCode)
     {
-        if (empty($countryCode)) {
+        if ($countryCode <= 0) {
             throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'countryCode'));
         }
     }

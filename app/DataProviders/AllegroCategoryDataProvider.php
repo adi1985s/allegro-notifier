@@ -11,16 +11,24 @@ class AllegroCategoryDataProvider
      */
     protected $apiConfigRepository;
 
-    public function __construct(ApiConfigRepository $apiConfigRepository)
+    /**
+     * @var \SoapClient
+     */
+    protected $soapClient;
+
+    /**
+     * @param ApiConfigRepository $apiConfigRepository
+     * @param \SoapClient $soapClient
+     */
+    public function __construct(ApiConfigRepository $apiConfigRepository, \SoapClient $soapClient)
     {
         $this->apiConfigRepository = $apiConfigRepository;
+        $this->soapClient = $soapClient;
     }
 
     public function getAll() : ArrayCollection
     {
-        $client = new \SoapClient($this->apiConfigRepository->getApiUrl(), ['encoding'=>'UTF-8']);
-
-        $itemsRaw = $client->doGetCatsData(['countryId' => 1, 'webapiKey' => $this->apiConfigRepository->getApiToken()]);
+        $itemsRaw = $this->soapClient->doGetCatsData(['countryId' => 1, 'webapiKey' => $this->apiConfigRepository->getApiToken()]);
 
         $itemsArray = json_decode(json_encode($itemsRaw, JSON_UNESCAPED_UNICODE), true);
 

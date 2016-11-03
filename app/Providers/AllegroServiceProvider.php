@@ -33,6 +33,8 @@ class AllegroServiceProvider extends ServiceProvider
 
         // at last, bind config repository provider
         $this->bindApiConfigRepository($configRepository);
+
+        $this->bindSoapClient();
     }
 
     /**
@@ -127,6 +129,15 @@ class AllegroServiceProvider extends ServiceProvider
             $localVersion = $this->app->make(ApiLocalVersion::class);
 
             return new AllegroWebApiConfigRepository($apiCredentials, $apiUrl, $countryCode, $localVersion);
+        });
+    }
+
+    private function bindSoapClient()
+    {
+        $this->app->bind(\SoapClient::class, function () {
+            $apiConfigRepository = $this->app->make(ApiConfigRepository::class);
+
+            return new \SoapClient($apiConfigRepository->getApiUrl(), ['encoding'=>'UTF-8']);
         });
     }
 }

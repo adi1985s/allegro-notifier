@@ -47,7 +47,7 @@ class AllegroWebApiCredentials extends ApiCredentials
             throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'password'));
         }
         if (empty($webApiToken)) {
-            throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'webApiToken'));
+            throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'apiToken'));
         }
     }
 
