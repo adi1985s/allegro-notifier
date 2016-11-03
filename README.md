@@ -8,7 +8,7 @@ $ cd allegro-notifier && composer install
 $ cp .env.example .env
 ```
 Now edit Your .env configuration file. Please fill all variables with ALLEGRO_ prefix.
-Allegro-notifier uses api token to read-only purposes from Allegro WebAPI. 
+Allegro-notifier uses informations provided in .env file to perform read-only requests from Allegro WebAPI. 
 More informations about allegro webapi tokens: http://allegro.pl/webapi/?lang=en
 
 After that You are ready to download categories.
