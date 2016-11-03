@@ -5,8 +5,6 @@ use App\ValueObjects\Contracts\ApiLocalVersion;
 
 class AllegroWebApiLocalVersion extends ApiLocalVersion
 {
-    const INVALID_LOCAL_VERSION = "Invalid local version";
-
     /**
      * @var int
      */
@@ -32,7 +30,7 @@ class AllegroWebApiLocalVersion extends ApiLocalVersion
     protected function guard($localVersion)
     {
         if (empty($localVersion)) {
-            throw new \InvalidArgumentException(self::INVALID_LOCAL_VERSION);
+            throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'localVersion'));
         }
     }
 }

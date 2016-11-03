@@ -5,8 +5,6 @@ use App\ValueObjects\Contracts\ApiCredentials;
 
 class AllegroWebApiCredentials extends ApiCredentials
 {
-    const INVALID_ARG = 'Invalid %s parameter';
-
     /**
      * @var string
      */
@@ -43,13 +41,13 @@ class AllegroWebApiCredentials extends ApiCredentials
     protected function guard($username, $password, $webApiToken)
     {
         if (empty($username)) {
-            throw new \InvalidArgumentException(sprintf(self::INVALID_ARG, 'username'));
+            throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'username'));
         }
         if (empty($password)) {
-            throw new \InvalidArgumentException(sprintf(self::INVALID_ARG, 'password'));
+            throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'password'));
         }
         if (empty($webApiToken)) {
-            throw new \InvalidArgumentException(sprintf(self::INVALID_ARG, 'webApiToken'));
+            throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'webApiToken'));
         }
     }
 

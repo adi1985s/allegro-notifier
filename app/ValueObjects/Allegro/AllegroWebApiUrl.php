@@ -5,8 +5,6 @@ use App\ValueObjects\Contracts\ApiUrl;
 
 class AllegroWebApiUrl extends ApiUrl
 {
-    const INVALID_URL_MGS = "Invalid web api URL";
-
     /**
      * @var string
      */
@@ -32,7 +30,7 @@ class AllegroWebApiUrl extends ApiUrl
     private function guard($webApiUrl)
     {
         if (filter_var($webApiUrl, FILTER_VALIDATE_URL) === false) {
-            throw new \InvalidArgumentException(self::INVALID_URL_MGS);
+            throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'URL'));
         }
     }
 }

@@ -5,8 +5,6 @@ use App\ValueObjects\Contracts\ApiCountryCode;
 
 class AllegroWebApiCountryCode extends ApiCountryCode
 {
-    const INVALID_COUNTRY_CODE_MGS = "Invalid country code";
-
     /**
      * @var int
      */
@@ -32,7 +30,7 @@ class AllegroWebApiCountryCode extends ApiCountryCode
     private function guard($countryCode)
     {
         if (empty($countryCode)) {
-            throw new \InvalidArgumentException(self::INVALID_COUNTRY_CODE_MGS);
+            throw new \InvalidArgumentException(sprintf(AllegroObjectErrorMessage::INVALID_PARAMETER_MSG, 'countryCode'));
         }
     }
 }
