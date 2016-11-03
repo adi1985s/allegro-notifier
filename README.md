@@ -13,6 +13,5 @@ More informations about allegro webapi tokens: http://allegro.pl/webapi/?lang=en
 After that You are ready to download categories.
 To do this, type:
 ```sh
-$ php artisan doctrine:schema:update
-$ php artisan allegro:categories:rebuild
+$ php artisan doctrine:schema:update && php artisan allegro:categories:rebuild
 ```
