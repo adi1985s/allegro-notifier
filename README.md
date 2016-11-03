@@ -15,3 +15,8 @@ To do this, type:
 ```sh
 $ php artisan doctrine:schema:update && php artisan allegro:categories:rebuild
 ```
+
+##### Additionally - run tests and build coverage report
+```sh
+$ php vendor/bin/phpunit --coverage-html ./coverage
+```
