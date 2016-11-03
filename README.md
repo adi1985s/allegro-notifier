@@ -1,7 +1,7 @@
 # allegro-notifier
-### User friendly and configurable allegro.pl new auctions notifications. 
+##### User friendly and configurable allegro.pl new auctions notifications. 
 
-##### Installation
+#### Installation
 1. Clone repository & configure
 ```sh
 $ git clone https://github.com/initx/allegro-notifier.git
@@ -20,7 +20,7 @@ http://allegro.pl/webapi/?lang=en
 $ php artisan doctrine:schema:create
 ```
 
-##### Usage
+#### Usage
 Download categories.
 To do this, type:
 ```sh
